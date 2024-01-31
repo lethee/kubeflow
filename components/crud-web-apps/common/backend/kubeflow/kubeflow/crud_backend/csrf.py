@@ -89,24 +89,25 @@ def set_cookie(resp):
 
 @bp.before_app_request
 def check_endpoint():
-    safe_methods = ["GET", "HEAD", "OPTIONS", "TRACE"]
-    if request.method in safe_methods:
-        log.info("Skipping CSRF check for safe method: %s", request.method)
-        return
+    log.info("Skipping All CSRF check")
+    # safe_methods = ["GET", "HEAD", "OPTIONS", "TRACE"]
+    # if request.method in safe_methods:
+    #     log.info("Skipping CSRF check for safe method: %s", request.method)
+    #     return
 
-    log.debug("Ensuring endpoint is CSRF protected: %s", request.path)
-    if CSRF_COOKIE not in request.cookies:
-        raise Forbidden("Could not find CSRF cookie %s in the request."
-                        % CSRF_COOKIE)
+    # log.debug("Ensuring endpoint is CSRF protected: %s", request.path)
+    # if CSRF_COOKIE not in request.cookies:
+    #     raise Forbidden("Could not find CSRF cookie %s in the request."
+    #                     % CSRF_COOKIE)
 
-    if CSRF_HEADER not in request.headers:
-        raise Forbidden("Could not detect CSRF protection header %s."
-                        % CSRF_HEADER)
+    # if CSRF_HEADER not in request.headers:
+    #     raise Forbidden("Could not detect CSRF protection header %s."
+    #                     % CSRF_HEADER)
 
-    header_token = request.headers[CSRF_HEADER]
-    cookie_token = request.cookies[CSRF_COOKIE]
-    if header_token != cookie_token:
-        raise Forbidden("CSRF check failed. Token in cookie %s doesn't match "
-                        "token in header %s." % (CSRF_COOKIE, CSRF_HEADER))
+    # header_token = request.headers[CSRF_HEADER]
+    # cookie_token = request.cookies[CSRF_COOKIE]
+    # if header_token != cookie_token:
+    #     raise Forbidden("CSRF check failed. Token in cookie %s doesn't match "
+    #                     "token in header %s." % (CSRF_COOKIE, CSRF_HEADER))
 
     return
